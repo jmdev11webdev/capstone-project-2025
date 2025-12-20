@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LandSeek | Login</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./styles/styles.css">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  <!-- additional styles -->
+  <style>
+  /* ===== Forgot Password Modal ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 35px 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.modal-content label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.modal-content input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.modal-content input[type="email"]:focus {
+  border-color: #1fd56e;
+  outline: none;
+  box-shadow: 0 0 5px rgba(31, 213, 110, 0.5);
+}
+
+.modal-content button {
+  background: #1fd56e;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.modal-content button:hover {
+  background: #17a95a;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive modal adjustments */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 90%;
+    padding: 25px 15px;
+  }
+  .modal-content h3 {
+    font-size: 1.2rem;
+  }
+  .modal-content p {
+    font-size: 0.85rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+        <span>
+        <img src="./assets/logo/LandSeekLogo.png" alt="LandSeek Logo" width="80" height="80">
+        </span>
+
+        <span>
+        <small><b>Digital Marketplace <br>
+        for Land Hunting </b></small>
+        </span>
+
+        <nav class="index-nav">
+            <ul>
+            <li><a href="index.php" ><i class="fas fa-house"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-circle-question"></i> About</a></li>
+            <li><a href="contact.html"><i class="fas fa-phone-volume"></i> Contacts</a></li>
+            <li><a href="services.html"><i class="fas fa-briefcase"></i> Services</a></li>
+            <li><a href="login.html" class="ordinary"><i class="fa-solid fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a></li>
+        </nav>
+        
+        <!-- Menu button -->
+        <span class="menu-btn" onclick="openNav()">&#9776;</span>
+        
+        <!-- Side navigation -->
+        <div id="mySidenav" class="side-nav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="index.php" class="active"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="about.html"><i class="fa-solid fa-circle-question"></i> About</a>
+            <a href="contact.html"><i class="fa-solid fa-phone-volume"></i> Contacts</a>
+            <a href="services.html"><i class="fa-solid fa-briefcase"></i> Services</a>
+            <a href="login.html"><i class="fa-solid fa-sign-in-alt"></i> Login</a>
+            <a href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>
+        </div>
+    </header>
+
+  <!-- Login Section -->
+  <section class="login-section">
+    <!-- Left side -->
+    <div class="login-left">
+      <img src="assets/logo/LandSeekLogo.png" alt="LandSeek Logo" width="80" height="80">
+      <h2>Signing in to LandSeek</h2>
+      <p>will let you access the features <br>
+      and start your landseeking journey!</p>
+    </div>
+
+    <!-- Right side -->
+    <div class="login-right">
+      <h2>Login to Your Account</h2>
+      <form class="login-form" action="./authentication/login.php" method="POST">
+        <label for="email">Email Address</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+
+        <label for="password">Password</label>
+          <div class="password-container">
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            <i class="fa-solid fa-eye" id="togglePassword"></i>
+        </div>
+
+
+        <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+        
+        <div class="extra">
+          <p>Don't have an account? <a href="register.html"> Register here</a></p>
+          <p>
+            Forgot your password? 
+            <a href="#" id="forgotPasswordLink">Click here</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Chatbot button -->
+  <div class="chat-bot">
+  <i class="fa-solid fa-robot fa-2x" id="chatBotBtn"></i>
+  </div>
+
+  <!-- Chatbot window -->
+  <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+      LandSeek Bot
+      <span id="closeChat" style="cursor:pointer;">&times;</span>
+      </div>
+      <div class="chat-body" id="chatBody"></div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgotPasswordModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h3>Reset Your Password</h3>
+      <p>Enter your registered email address. We'll send a reset link.</p>
+
+      <form id="forgotPasswordForm" method="POST" action="./authentication/send_reset_link.php">
+        <label for="resetEmail">Email Address</label>
+        <input type="email" id="resetEmail" name="email" placeholder="Enter your email" required>
+        <button type="submit">Send Reset Link</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-about">
+        <h3>LandSeek</h3>
+        <p>A Digital Marketplace for Land Hunting. 
+           Find, buy, sell, and communicate with ease — 
+           without middlemen.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">User Guidelines</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-support">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Report an Issue</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 LandSeek. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="./javascripts/chatbot.js"></script>
+
+  <script>
+        function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        }
+
+        // Optional: close when clicking outside
+        window.addEventListener('click', function(e){
+        const sidenav = document.getElementById("mySidenav");
+        const menuBtn = document.querySelector(".menu-btn");
+        if(sidenav.style.width === "250px" && !sidenav.contains(e.target) && e.target !== menuBtn){
+            closeNav();
+        }
+        });
+    </script>
+
+    <script>
+  const togglePassword = document.querySelector("#togglePassword");
+  const passwordInput = document.querySelector("#password");
+
+  togglePassword.addEventListener("click", function () {
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+
+    // Toggle eye / eye-slash icon
+    this.classList.toggle("fa-eye");
+    this.classList.toggle("fa-eye-slash");
+  });
+</script>
+
+<script>
+  const forgotLink = document.getElementById("forgotPasswordLink");
+  const modal = document.getElementById("forgotPasswordModal");
+  const closeModal = document.getElementById("closeModal");
+
+  forgotLink.addEventListener("click", function(e) {
+    e.preventDefault();
+    modal.style.display = "flex";
+  });
+
+  closeModal.addEventListener("click", function() {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", function(e) {
+    if (e.target === modal) modal.style.display = "none";
+  });
+</script>
+
+</body>
+</html>

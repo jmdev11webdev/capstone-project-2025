@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
+    
+    <title>LandSeek | About Us</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <!-- Fontawesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <header>
+        <span>
+        <img src="./assets/logo/LandSeekLogo.png" alt="LandSeek Logo" width="80" height="80">
+        </span>
+
+        <span>
+        <small><b>Digital Marketplace <br>
+        for Land Hunting </b></small>
+        </span>
+
+        <nav class="index-nav">
+            <ul>
+            <li><a href="index.php" ><i class="fas fa-house"></i> Home</a></li>
+            <li><a href="about.html" class="ordinary"><i class="fas fa-circle-question"></i> About</a></li>
+            <li><a href="contact.html"><i class="fas fa-phone-volume"></i> Contacts</a></li>
+            <li><a href="services.html"><i class="fas fa-briefcase"></i> Services</a></li>
+            <li><a href="login.html"><i class="fa-solid fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a></li>
+        </nav>
+        
+        <!-- Menu button -->
+        <span class="menu-btn" onclick="openNav()">&#9776;</span>
+        
+        <!-- Side navigation -->
+        <div id="mySidenav" class="side-nav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="index.php" class="active"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="about.html"><i class="fa-solid fa-circle-question"></i> About</a>
+            <a href="contact.html"><i class="fa-solid fa-phone-volume"></i> Contacts</a>
+            <a href="services.html"><i class="fa-solid fa-briefcase"></i> Services</a>
+            <a href="login.html"><i class="fa-solid fa-sign-in-alt"></i> Login</a>
+            <a href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>
+        </div>
+    </header>
+
+    <div class="about-container">
+        <div class="about-content">
+            <h1>What is <b>LandSeek?</b></h1>
+            <p>LandSeek is a digital marketplace designed to make land hunting faster, easier, and more transparent. It connects users in one platform where properties can be explored and inquired about directly. <br> <br>With advanced search and filtering, users can find the right land without unnecessary delays, while landowners gain visibility for their listings in a trusted online environment.
+            <br> <br> What makes LandSeek different is its independence from middlemen. Communication, inquiries, and negotiations happen directly between the end users—buyers and sellers—giving them full control over their agreements. <br> <br> This approach keeps transactions straightforward, efficient, and flexible, ensuring that all decisions remain in the hands of those involved. <br> <br> This is made for a better and faster way of buying and selling land between users who are the buyers and sellers to lessen expenses</p>
+        </div>
+
+        <div class="thinking-graphic">
+            <img src="./assets/logo/thinking.png" alt="Thinking Graphic" height="200" width="200">
+        </div>
+    </div>
+    
+    <!-- Chatbot button -->
+    <div class="chat-bot">
+    <i class="fa-solid fa-robot fa-2x" id="chatBotBtn"></i>
+    </div>
+
+    <!-- Chatbot window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+        LandSeek Bot
+        <span id="closeChat" style="cursor:pointer;">&times;</span>
+        </div>
+        <div class="chat-body" id="chatBody"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+        <div class="footer-about">
+            <h3>LandSeek</h3>
+            <p>A Digital Marketplace for Land Hunting. 
+            Find, buy, sell, and communicate with ease — 
+            without middlemen.</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">User Guidelines</a></li>
+            <li><a href="#">FAQs</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-support">
+            <h4>Support</h4>
+            <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Report an Issue</a></li>
+            </ul>
+        </div>
+        </div>
+
+        <div class="footer-bottom">
+        <p>&copy; 2025 LandSeek. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="./javascripts/chatbot.js"></script>
+
+    <script>
+        function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        }
+
+        // Optional: close when clicking outside
+        window.addEventListener('click', function(e){
+        const sidenav = document.getElementById("mySidenav");
+        const menuBtn = document.querySelector(".menu-btn");
+        if(sidenav.style.width === "250px" && !sidenav.contains(e.target) && e.target !== menuBtn){
+            closeNav();
+        }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+html, body {
+    font-family: 'Lucida Sans', 'Lucida Grande', Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    background-color: #32a852;
+    padding: 15px 8%; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.navbar .logo {
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+/* Navbar List */
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Links */
+.navbar ul li {
+    position: relative; /* for dropdown */
+}
+
+.navbar a {
+    text-decoration: none;
+    margin: 0 12px;
+    padding: 8px 0;
+    color: #fff;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    border-bottom: 2px solid #fff;
+}
+
+.active {
+    border-bottom: 2px solid #fff;
+}
+
+/* Dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    top: 100%;
+    right: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #f2f2f2;
+    color: #32a852;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.active {
+    border-bottom: 2px solid #fff;
+}
+
+.footer {
+  background: #222; /* matches your navbar */
+  color: #ddd;
+  padding: 40px 20px 20px;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer h3, 
+.footer h4 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.footer p {
+  line-height: 1.6;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer ul li {
+  margin-bottom: 8px;
+}
+
+.footer ul li a {
+  text-decoration: none;
+  color: #bbb;
+  transition: color 0.3s;
+}
+
+.footer ul li a:hover {
+  color: #32a852; /* your green brand color */
+}
+
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  margin-top: 20px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+/* ChatBot Floating Button */
+.chat-bot {
+  margin: 20px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.chat-bot i {
+  background: #32a852;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 60px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.chat-bot i:hover {
+  background: #278a41;
+}
+
+/* Chat Window */
+.chat-window {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.chat-header {
+  background: #32a852;
+  color: #fff;
+  padding: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-body {
+  max-height: 250px;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+  color: #333;
+}
+
+.chat-footer {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.chat-footer input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+}
+
+.chat-footer button {
+  background: #32a852;
+  color: #fff;
+  border: none;
+  padding: 0 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.chat-footer button:hover {
+  background: #278a41;
+}
+
+.chat-bot {
+    margin-bottom: 5%;
+    margin-right: 5%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.chat-bot i {
+    background: #32a852;
+    border-radius: 50%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    color: #fff;
+}
+
+.main {
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+}
+
+.main h1 {
+    color: #32a852;
+}
+
+.main a {
+    text-decoration: none;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    margin-right: 15px;
+    padding: 10px;
+}
+
+.post-a-property:hover{
+    background-color: #278a41;
+    transition-duration: 0.3s;
+}
+
+.find-a-property:hover {
+    background-color: #32a852;
+    transition-duration: 0.3s;
+    color: #fff;
+}
+
+.post-a-property {
+    background-color: #32a852;
+    color: #fff;
+}
+
+.find-a-property {
+    background-color: #fff;
+    border: 1px solid #32a852;
+    color: #32a852;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 10%;
+  background: #f9f9f9;
+}
+
+.hero-text h1 {
+  font-size: 2.8rem;
+  color: #32a852;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  color: #444;
+  margin: 20px 0;
+}
+
+.hero-buttons {
+  margin-top: 20px;
+}
+
+.hero img {
+  max-width: 400px;
+  height: auto;
+}
+
+/* Buttons */
+.btn {
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-weight: bold;
+  transition: 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Features */
+.features {
+  text-align: center;
+  padding: 60px 10%;
+}
+
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.card {
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  padding: 25px;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  margin-top: 15px;
+  color: #32a852;
+}
+
+.card p {
+  color: #555;
+}
+
+.login-btn {
+  background-color: green;
+}
+
+.login-btn:hover {
+  border-bottom: none;
+}
+
