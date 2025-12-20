@@ -104,14 +104,14 @@ if ($stmt->execute()) {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; // Set the SMTP server to send through
-        $mail->SMTPAuth   = true; // Enable SMTP authentication
-        $mail->Username   = 'landseek.2024.25@gmail.com'; // SMTP username
-        $mail->Password   = 'ivbylphysttrnwdg'; // this is the gmail app password
+        $mail->Host       = ''; // Set the SMTP server to send through
+        $mail->SMTPAuth   = ; // Enable SMTP authentication
+        $mail->Username   = ''; // SMTP username
+        $mail->Password   = ''; // this is the gmail app password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also acceptedS
-        $mail->Port       = 587; // TCP port to connect to 
+        $mail->Port       = ; // TCP port to connect to 
 
-        $mail->setFrom('landseek.2024.25@gmail.com', 'LandSeek'); // Sender info
+        $mail->setFrom('', 'LandSeek'); // Sender info
         $mail->addAddress($email, $fullname ?: $email); // Recipient
 
         $verifyLink = "http://localhost/landseek/authentication/verifyemail.php?token=" .
@@ -157,3 +157,4 @@ if ($stmt->execute()) {
 // Close connection
 $conn->close();
 ?>
+
