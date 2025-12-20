@@ -91,9 +91,7 @@ A separate administrative system for managing platform data.
 
 * **XAMPP** (Apache, PHP, MySQL)
 * No frameworks (pure/native stack)
-
----
-```
+  
 ---
 
 ## 🚀 Installation & Setup (XAMPP)
