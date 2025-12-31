@@ -44,14 +44,14 @@ $stmtToken->execute(); // Execute update
 $mail = new PHPMailer(true);
 try {
     $mail->isSMTP(); // Send using SMTP
-    $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
+    $mail->Host = '; // Set the SMTP server to send through
     $mail->SMTPAuth = true; // Enable SMTP authentication
-    $mail->Username = 'lahorrajm@gmail.com'; // SMTP username
-    $mail->Password = 'ggawqjtqjwtuiaoa'; // Gmail app password
+    $mail->Username = ''; // SMTP username
+    $mail->Password = ''; // Gmail app password
     $mail->SMTPSecure = 'tls'; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
     $mail->Port = 587; // TCP port to connect to
 
-    $mail->setFrom('lahorrajm@gmail.com', 'LandSeek'); // Sender
+    $mail->setFrom('', ''); // Sender
     $mail->addAddress($email); // Recipient
 
     // Verification link with new token
@@ -102,3 +102,4 @@ try {
     exit; // Stop further execution
 }
 ?>
+
