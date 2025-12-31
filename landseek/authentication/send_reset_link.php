@@ -41,14 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = '';
         $mail->SMTPAuth = true;
-        $mail->Username = 'lahorrajm@gmail.com';  // your Gmail
-        $mail->Password = 'ggawqjtqjwtuiaoa';     // app password
+        $mail->Username = '';  // your Gmail
+        $mail->Password = '';     // app password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Port = ;
 
-        $mail->setFrom('lahorrajm@gmail.com', 'LandSeek Support');
+        $mail->setFrom('', '');
         $mail->addAddress($email);
         $mail->isHTML(true);
         $mail->Subject = 'Password Reset Request - LandSeek';
@@ -79,3 +79,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+
