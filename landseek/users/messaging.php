@@ -95,41 +95,58 @@ class MessagingManager {
     }
     
     private function loadConversations() {
-        $msgQuery = $this->conn->prepare("
-            SELECT 
-                p.id AS property_id, 
-                p.title AS property_title,
-                CASE WHEN m.sender_id=? THEN m.receiver_id ELSE m.sender_id END AS other_user_id,
-                u.full_name,
-                MAX(m.created_at) AS last_message_time
-            FROM messages m
-            JOIN user_profiles u 
-              ON u.user_id = CASE WHEN m.sender_id=? THEN m.receiver_id ELSE m.sender_id END
-            LEFT JOIN properties p ON p.id = m.property_id
-            WHERE m.sender_id=? OR m.receiver_id=?
-            GROUP BY p.id, other_user_id
-            ORDER BY p.title ASC, last_message_time DESC
-        ");
-        $msgQuery->bind_param("iiii", $this->user_id, $this->user_id, $this->user_id, $this->user_id);
-        $msgQuery->execute();
-        $rows = $msgQuery->get_result()->fetch_all(MYSQLI_ASSOC);
-        $msgQuery->close();
+    $sql = "
+        SELECT 
+            p.id AS property_id,
+            p.title AS property_title,
+            CASE 
+                WHEN m.sender_id = ? THEN m.receiver_id
+                ELSE m.sender_id
+            END AS other_user_id,
+            MAX(u.full_name) AS full_name,
+            MAX(m.created_at) AS last_message_time
+        FROM messages m
+        JOIN user_profiles u
+          ON u.user_id = CASE 
+                WHEN m.sender_id = ? THEN m.receiver_id
+                ELSE m.sender_id
+            END
+        LEFT JOIN properties p ON p.id = m.property_id
+        WHERE m.sender_id = ?
+           OR m.receiver_id = ?
+        GROUP BY p.id, other_user_id
+        ORDER BY property_title ASC, last_message_time DESC
+    ";
 
-        foreach ($rows as $row) {
-            $propId = $row['property_id'] ?? 0;
-            if (!isset($this->conversations[$propId])) {
-                $this->conversations[$propId] = [
-                    'title' => $row['property_title'] ?? 'Untitled Property',
-                    'users' => []
-                ];
-            }
-            $this->conversations[$propId]['users'][] = [
-                'user_id' => $row['other_user_id'],
-                'full_name' => $row['full_name'],
-                'last_message_time' => $row['last_message_time']
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param(
+        "iiii",
+        $this->user_id,
+        $this->user_id,
+        $this->user_id,
+        $this->user_id
+    );
+    $stmt->execute();
+    $rows = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    foreach ($rows as $row) {
+        $propId = (int) ($row['property_id'] ?? 0);
+
+        if (!isset($this->conversations[$propId])) {
+            $this->conversations[$propId] = [
+                'title' => $row['property_title'] ?? 'Untitled Property',
+                'users' => []
             ];
         }
+
+        $this->conversations[$propId]['users'][] = [
+            'user_id' => (int) $row['other_user_id'],
+            'full_name' => $row['full_name'],
+            'last_message_time' => $row['last_message_time']
+        ];
     }
+}
     
     private function markMessagesAsRead() {
         if ($this->activeReceiver && $this->property_id) {

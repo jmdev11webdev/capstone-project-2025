@@ -223,26 +223,36 @@ class PropertyUpdateManager {
      * Fetch Properties with Conversations for dropdown
      */
     public function getPropertyConversations() {
-        $sql = "
-          SELECT DISTINCT p.id AS property_id, p.title, p.user_id AS owner_id
-          FROM properties p
-          JOIN messages m ON p.id = m.property_id
-          WHERE p.user_id = ? 
-             OR m.sender_id = ? 
-             OR m.receiver_id = ?
-          ORDER BY p.created_at DESC
-        ";
+    $sql = "
+        SELECT DISTINCT
+            p.id AS property_id,
+            p.title,
+            p.user_id AS owner_id,
+            p.created_at
+        FROM properties p
+        JOIN messages m ON p.id = m.property_id
+        WHERE p.user_id = ?
+           OR m.sender_id = ?
+           OR m.receiver_id = ?
+        ORDER BY p.created_at DESC
+    ";
 
-        $propertyConvos = [];
-        if ($msgQuery = $this->conn->prepare($sql)) {
-            $msgQuery->bind_param("iii", $this->user_id, $this->user_id, $this->user_id);
-            $msgQuery->execute();
-            $propertyConvos = $msgQuery->get_result()->fetch_all(MYSQLI_ASSOC);
-            $msgQuery->close();
-        }
-        
-        return $propertyConvos;
+    $propertyConvos = [];
+
+    if ($stmt = $this->conn->prepare($sql)) {
+        $stmt->bind_param(
+            "iii",
+            $this->user_id,
+            $this->user_id,
+            $this->user_id
+        );
+        $stmt->execute();
+        $propertyConvos = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
     }
+
+    return $propertyConvos;
+}
     
     /**
      * Fetch Notifications for Dropdown

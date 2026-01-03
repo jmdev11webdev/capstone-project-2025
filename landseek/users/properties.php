@@ -185,19 +185,33 @@ class PropertyManager {
     }
     
     public function getPropertyConversations() {
-        $msgQuery = $this->conn->prepare("
-            SELECT DISTINCT p.id AS property_id, p.title
-            FROM messages m
-            JOIN properties p ON p.id = m.property_id
-            WHERE m.sender_id = ? OR m.receiver_id = ? OR p.user_id = ?
-            ORDER BY p.created_at DESC
-        ");
-        $msgQuery->bind_param("iii", $this->user_id, $this->user_id, $this->user_id);
-        $msgQuery->execute();
-        $propertyConvos = $msgQuery->get_result()->fetch_all(MYSQLI_ASSOC);
-        $msgQuery->close();
-        return $propertyConvos;
-    }
+    $sql = "
+        SELECT DISTINCT
+            p.id AS property_id,
+            p.title,
+            p.created_at
+        FROM messages m
+        JOIN properties p ON p.id = m.property_id
+        WHERE m.sender_id = ?
+           OR m.receiver_id = ?
+           OR p.user_id = ?
+        ORDER BY p.created_at DESC
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param(
+        "iii",
+        $this->user_id,
+        $this->user_id,
+        $this->user_id
+    );
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    return $data;
+}
+
     
     public function getNotifications() {
         $notifQuery = $this->conn->prepare("

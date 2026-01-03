@@ -187,60 +187,100 @@ class Dashboard {
      * Update property status and notify users
      */
     private function updatePropertyStatus() {
-        if (!isset($_POST['property_id']) || !isset($_POST['status'])) {
-            header("Location: dashboard.php?error=missing_data");
-            exit;
-        }
-
-        $property_id = intval($_POST['property_id']);
-        $status = $_POST['status'];
-
-        // ✅ 1. Update property status
-        $update = $this->conn->prepare("UPDATE properties SET status=? WHERE id=? AND user_id=?");
-        $update->bind_param("sii", $status, $property_id, $this->user_id);
-        $update->execute();
-        $update->close();
-
-        // ✅ 2. Get property title for notification message
-        $titleQuery = $this->conn->prepare("SELECT title FROM properties WHERE id=?");
-        $titleQuery->bind_param("i", $property_id);
-        $titleQuery->execute();
-        $titleResult = $titleQuery->get_result()->fetch_assoc();
-        $property_title = $titleResult['title'] ?? 'Property';
-        $titleQuery->close();
-
-        // ✅ 3. Find all users who saved this property
-        $savedQuery = $this->conn->prepare("SELECT user_id FROM saved_properties WHERE property_id=?");
-        $savedQuery->bind_param("i", $property_id);
-        $savedQuery->execute();
-        $savedUsers = $savedQuery->get_result()->fetch_all(MYSQLI_ASSOC);
-        $savedQuery->close();
-
-        // ✅ 4. Notify each user
-        if ($savedUsers) {
-            foreach ($savedUsers as $su) {
-                $uid = $su['user_id'];
-                $msg = "The property '".$property_title."' is now marked as ".$status.".";
-                $notif = $this->conn->prepare("INSERT INTO notifications (user_id, type, title, message, is_read, created_at) VALUES (?,?,?,?,0,NOW())");
-                $type = "property_status";
-                $notif->bind_param("isss", $uid, $type, $property_title, $msg);
-                $notif->execute();
-                $notif->close();
-            }
-        }
-
-        // ✅ 5. If sold → remove from saved_properties
-        if ($status === 'sold') {
-            $del = $this->conn->prepare("DELETE FROM saved_properties WHERE property_id=?");
-            $del->bind_param("i", $property_id);
-            $del->execute();
-            $del->close();
-        }
-
-        // ✅ Redirect back
-        header("Location: dashboard.php?success=status_updated");
+    if (!isset($_POST['property_id']) || !isset($_POST['status'])) {
+        header("Location: dashboard.php?error=missing_data");
         exit;
     }
+
+    $property_id = (int) $_POST['property_id'];
+    $status = $_POST['status'];
+
+    /* ==============================
+       1. Update property status
+       ============================== */
+    $update = $this->conn->prepare(
+        "UPDATE properties SET status=? WHERE id=? AND user_id=?"
+    );
+    $update->bind_param("sii", $status, $property_id, $this->user_id);
+    $update->execute();
+    $update->close();
+
+    /* ==============================
+       2. Get property title
+       ============================== */
+    $titleQuery = $this->conn->prepare(
+        "SELECT title FROM properties WHERE id=?"
+    );
+    $titleQuery->bind_param("i", $property_id);
+    $titleQuery->execute();
+    $result = $titleQuery->get_result()->fetch_assoc();
+    $property_title = $result['title'] ?? 'Property';
+    $titleQuery->close();
+
+    /* ==============================
+       3. Find users who saved property
+       ============================== */
+    $savedQuery = $this->conn->prepare(
+        "SELECT user_id FROM saved_properties WHERE property_id=?"
+    );
+    $savedQuery->bind_param("i", $property_id);
+    $savedQuery->execute();
+    $savedUsers = $savedQuery->get_result()->fetch_all(MYSQLI_ASSOC);
+    $savedQuery->close();
+
+    /* ==============================
+       4. Notify users
+       ============================== */
+    if (!empty($savedUsers)) {
+        $notif = $this->conn->prepare("
+            INSERT INTO notifications
+            (user_id, notifiable_type, notifiable_id, type, title, message, is_read, created_at)
+            VALUES (?,?,?,?,?,?,0,NOW())
+        ");
+
+        foreach ($savedUsers as $su) {
+            $uid = (int) $su['user_id'];
+            $msg = "The property '{$property_title}' is now marked as {$status}.";
+
+            $notifiableType = 'property';
+            $type = 'property_status';
+
+            // 🔑 6 placeholders = 6 variables
+            $notif->bind_param(
+                "isisss",
+                $uid,
+                $notifiableType,
+                $property_id,
+                $type,
+                $property_title,
+                $msg
+            );
+
+            $notif->execute();
+        }
+
+        $notif->close();
+    }
+
+    /* ==============================
+       5. If sold → remove saved links
+       ============================== */
+    if ($status === 'sold') {
+        $del = $this->conn->prepare(
+            "DELETE FROM saved_properties WHERE property_id=?"
+        );
+        $del->bind_param("i", $property_id);
+        $del->execute();
+        $del->close();
+    }
+
+    /* ==============================
+       6. Redirect
+       ============================== */
+    header("Location: dashboard.php?success=status_updated");
+    exit;
+}
+
 
     /**
      * Return basic user information.
@@ -258,18 +298,18 @@ class Dashboard {
      */
     public function getPropertyConversations() {
         $sql = "
-            SELECT DISTINCT p.id AS property_id, p.title, p.user_id AS owner_id
-            FROM properties p
-            JOIN messages m ON p.id = m.property_id
-            WHERE p.user_id = ? OR m.sender_id = ? OR m.receiver_id = ?
-            ORDER BY p.created_at DESC
-        ";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iii", $this->user_id, $this->user_id, $this->user_id);
-        $stmt->execute();
-        $data = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-        $stmt->close();
-        return $data;
+    SELECT DISTINCT 
+        p.id AS property_id,
+        p.title,
+        p.user_id AS owner_id,
+        p.created_at
+    FROM properties p
+    JOIN messages m ON p.id = m.property_id
+    WHERE p.user_id = ? 
+       OR m.sender_id = ? 
+       OR m.receiver_id = ?
+    ORDER BY p.created_at DESC
+";
     }
 
     /**
