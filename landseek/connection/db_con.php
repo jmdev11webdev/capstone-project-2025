@@ -1,10 +1,10 @@
 <?php
 
-$localhost = '127.0.0.1'; // usually localhost
+$localhost = ''; // usually localhost
 $username = 'root'; // default XAMPP username
-$password = 'Jmdev2025isjmtl@2003!!'; // default XAMPP password is empty
-$db_name = 'landseek'; // database name
-$port = 3307;
+$password = ''; // default XAMPP password is empty
+$db_name = ''; // database name
+$port = ''; // port
 
 // This creates the connection to the database
 $conn = new mysqli($localhost, $username, $password, $db_name, $port); // mysqli object
